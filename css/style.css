@@ -25,31 +25,25 @@ body,html,div{
     vertical-align: middle;
 }
 
-.up{
+.cube{
+    position:absolute;
+    width:40px;
+    height:40px;
+    background-color: #FF4949;
+    top: 23px;
+    left:43px;
+    animation:topToRight 1s;
+    animation-fill-mode:forwards;
+    
+}
+
+.cube-bar{
     width: 40px;
     height: 15px;
     background-color: #001DFF;
+    
 }
 
-.down{
-    width: 40px;
-    height: 15px;
-    margin-top: 25px;
-    background-color: #001DFF;
-}
-
-.left{
-    width: 15px;
-    height: 40px;
-    background-color: #001DFF;
-}
-
-.right{
-    width: 15px;
-    height: 40px;
-    margin-left:25px;
-    background-color: #001DFF;
-}
 .order{
     width:200px;
     height:30px
@@ -57,4 +51,14 @@ body,html,div{
 .btn{
     width:120px;
     height:30px
+}
+
+@keyframes topToRight{
+    
+    0%{
+        transform: rotate(0deg)
+    }
+    100%{
+        transform:rotate(90deg)
+    }
 }
