@@ -32,8 +32,6 @@ body,html,div{
     background-color: #FF4949;
     top: 23px;
     left:43px;
-    animation:topToRight 1s;
-    animation-fill-mode:forwards;
     
 }
 
@@ -54,7 +52,6 @@ body,html,div{
 }
 
 @keyframes topToRight{
-    
     0%{
         transform: rotate(0deg)
     }
@@ -62,3 +59,104 @@ body,html,div{
         transform:rotate(90deg)
     }
 }
+
+@keyframes rightToBottom{  
+    0%{
+        transform: rotate(90deg)
+    }
+    100%{
+        transform:rotate(180deg)
+    }
+}
+
+@keyframes bottomToLeft{  
+    0%{
+        transform: rotate(180deg)
+    }
+    100%{
+        transform:rotate(270deg)
+    }
+}
+
+@keyframes leftToTop{  
+    0%{
+        transform: rotate(270deg)
+    }
+    100%{
+        transform:rotate(360deg)
+    }
+}
+
+@keyframes topToLeft{
+    0%{
+        transform: rotate(0deg)
+    }
+    100%{
+        transform:rotate(-90deg)
+    }
+}
+
+@keyframes leftToBottom{
+    0%{
+        transform: rotate(-90deg)
+    }
+    100%{
+        transform:rotate(-180deg)
+    }
+}
+
+@keyframes bottomToRight{
+    0%{
+        transform: rotate(-180deg)
+    }
+    100%{
+        transform:rotate(-270deg)
+    }
+}
+
+@keyframes rightToTop{
+    0%{
+        transform: rotate(-270deg)
+    }
+    100%{
+        transform:rotate(-360deg)
+    }
+}
+
+
+@keyframes topTurnBack{
+    0%{
+        transform: rotate(0deg)
+    }
+    100%{
+        transform:rotate(180deg)
+    }
+}
+
+@keyframes rightTurnBack{
+    0%{
+        transform: rotate(90deg)
+    }
+    100%{
+        transform:rotate(270deg)
+    }
+}
+
+@keyframes bottomTurnBack{
+    0%{
+        transform: rotate(180deg)
+    }
+    100%{
+        transform:rotate(0deg)
+    }
+}
+
+@keyframes leftTurnBack{
+    0%{
+        transform: rotate(270deg)
+    }
+    100%{
+        transform:rotate(90deg)
+    }
+}
+

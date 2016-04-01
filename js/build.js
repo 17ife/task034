@@ -3,6 +3,35 @@ var config = {
     column:7
 }
 
+var cubebox = {
+    forward : 0,// 0-up 1-right 2-bottom 3-left 
+    At:0,
+    turnLeft:function(){
+        this.forward++;
+        if(this.forward==4){
+            this.forward = this.forward - 4;
+        }
+    },
+    turnRight:function(){
+        this.forward--;
+        if(this.forward==-1){
+            this.forward = this.forward + 4;
+        }
+    },
+    turnBack:function(){
+        this.forward = this.forward + 2;
+        if(this.forward>3){
+            this.forward = this.forward - 4;
+        }
+        if(this.forward<0){
+            this.forward = this.forward + 4;
+        }
+    },
+    move:function(next){
+        this.forward = next ;
+    }
+}
+
 function buildGrid(){
     var row = config.row,
         column = config.column,
@@ -23,13 +52,74 @@ function buildGrid(){
     document.getElementById("Grid").innerHTML = htmlStr;
 }
 
-function turnLeft(){
-    console.log("1")
+function turnRight(){
     var cube = document.getElementById("cube");
-    console.log(cube.style.transform)
+    if(cubebox.forward == 0 ){
+        cube.style.animation = "topToRight 1s";
+    }
+    if(cubebox.forward == 1 ){
+        cube.style.animation = "rightToBottom 1s";
+    }
+    if(cubebox.forward == 2 ){
+        cube.style.animation = "bottomToLeft 1s";
+    }
+    if(cubebox.forward == 3 ){
+        cube.style.animation = "leftToTop 1s";
+    }
+    cube.style.animationFillMode="forwards";
+    cubebox.turnLeft();
+}
+
+function turnLeft(){
+    var cube = document.getElementById("cube");
+    if(cubebox.forward == 0 ){
+        cube.style.animation = "topToLeft 1s";
+    }
+    if(cubebox.forward == 1 ){
+        cube.style.animation = "rightToTop 1s";
+    }
+    if(cubebox.forward == 2 ){
+        cube.style.animation = "bottomToRight 1s";
+    }
+    if(cubebox.forward == 3 ){
+        cube.style.animation = "leftToBottom 1s";
+    }
+    cube.style.animationFillMode="forwards";
+    cubebox.turnRight();
+}
+
+function turnBack(){
+    var cube = document.getElementById("cube");
+    if(cubebox.forward == 0 ){
+        cube.style.animation = "topTurnBack 1s";
+    }
+    if(cubebox.forward == 1 ){
+        cube.style.animation = "rightTurnBack 1s";
+    }
+    if(cubebox.forward == 2 ){
+        cube.style.animation = "bottomTurnBack 1s";
+    }
+    if(cubebox.forward == 3 ){
+        cube.style.animation = "leftTurnBack 1s";
+    }
+    cube.style.animationFillMode="forwards";
+    cubebox.turnBack();
 }
 
 function move(){
+    var cube = document.getElementById("cube");
+    if(cubebox.forward == 0 ){
+        cube.style.animation = "topTurnBack 1s";
+    }
+    if(cubebox.forward == 1 ){
+        cube.style.animation = "rightTurnBack 1s";
+    }
+    if(cubebox.forward == 2 ){
+        cube.style.animation = "bottomTurnBack 1s";
+    }
+    if(cubebox.forward == 3 ){
+        cube.style.animation = "leftTurnBack 1s";
+    }
 }
 
 function init(){
@@ -52,6 +142,12 @@ function init(){
     //bind events
     document.getElementById("tl").addEventListener("click",function(){
         turnLeft();
+    })
+    document.getElementById("tr").addEventListener("click",function(){
+        turnRight();
+    })
+    document.getElementById("tb").addEventListener("click",function(){
+        turnBack();
     })
     
 }
