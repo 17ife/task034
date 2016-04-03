@@ -4,21 +4,27 @@ var config = {
 }
 
 var cubebox = {
-    forward : 0,// 0-up 1-right 2-bottom 3-left 
-    At:0,
-    turnLeft:function(){
+    deg:0,
+    forward : 0,// 0-up 1-left 2-bottom 3-right 
+    topPos:23,
+    leftPos:43,
+    TURNLEFT:function(cube){
         this.forward++;
         if(this.forward==4){
             this.forward = this.forward - 4;
         }
+        this.deg -= 90;
+        cube.style.transform = "rotate(" + this.deg + "deg)";
     },
-    turnRight:function(){
+    TURNRIGHT:function(cube){
         this.forward--;
         if(this.forward==-1){
             this.forward = this.forward + 4;
         }
+        this.deg += 90;
+        cube.style.transform = "rotate(" + this.deg + "deg)";
     },
-    turnBack:function(){
+    TURNBACK:function(cube){
         this.forward = this.forward + 2;
         if(this.forward>3){
             this.forward = this.forward - 4;
@@ -26,10 +32,114 @@ var cubebox = {
         if(this.forward<0){
             this.forward = this.forward + 4;
         }
+        this.deg += 180;
+        cube.style.transform = "rotate(" + this.deg + "deg)";
     },
-    move:function(next){
-        this.forward = next ;
+    GO:function(cube){
+        var next = this.At;
+        if(this.forward == 0){
+            this.topPos -= 42;
+            if(this.topPos < 23){
+               this.topPos += 42;
+               return
+            }
+            cube.style.top = this.topPos + 'px';
+        }else if(this.forward == 2){
+            this.topPos += 42;
+            if(this.topPos > 23+ 42*(config.column-1)){
+               this.topPos -= 42;
+               return
+            }
+            cube.style.top = this.topPos + 'px';
+        }else if(this.forward == 1){
+            this.leftPos -= 42
+            if(this.leftPos<42){
+               this.leftPos += 42
+               return
+            }
+            cube.style.left = this.leftPos + 'px';
+        }else if(this.forward == 3){
+            this.leftPos += 42;
+            if(this.leftPos> 43+42*(config.row-1)){
+               this.leftPos -= 42
+               return
+            }
+            cube.style.left = this.leftPos + 'px';
+        }   
+    },
+    TRALEF:function(cube){
+        this.leftPos -= 42
+        if(this.leftPos<42){
+            this.leftPos += 42
+            return
+        }
+        cube.style.left = this.leftPos + 'px';
+    },
+    TRATOP:function(cube){
+        this.topPos -= 42;
+        if(this.topPos < 23){
+            this.topPos += 42;
+            return
+        }
+        cube.style.top = this.topPos + 'px';
+    },
+    TRARIG:function(cube){
+        this.leftPos += 42;
+        if(this.leftPos> 43+42*(config.row-1)){
+            this.leftPos -= 42
+            return
+        }
+        cube.style.left = this.leftPos + 'px';
+    },
+    TRABOT:function(cube){
+        this.topPos += 42;
+        if(this.topPos > 23+ 42*(config.column-1)){
+            this.topPos -= 42;
+            return
+        }
+        cube.style.top = this.topPos + 'px';
+    },
+    MOVLEF:function(cube){
+        this.forward = 1;
+        this.deg = -90;
+        cube.style.transform = "rotate(" + this.deg + "deg)";
+        this.GO(cube);
+    },
+    MOVTOP:function(cube){
+        this.forward = 0;
+        this.deg = 0;
+        cube.style.transform = "rotate(" + this.deg + "deg)";
+        this.GO(cube);
+    },
+    MOVRIG:function(cube){
+        this.forward = 3;
+        this.deg = 90;
+        cube.style.transform = "rotate(" + this.deg + "deg)";
+        this.GO(cube);
+    },
+    MOVBOT:function(cube){
+        this.forward = 2;
+        this.deg = 180;
+        cube.style.transform = "rotate(" + this.deg + "deg)";
+        this.GO(cube);
+    },
+    init:function(cube){
+        var startAt = Math.ceil(Math.random() * config.row * config.column) -1,//随机起始点
+            forwardAT = Math.ceil(Math.random()*100);
+        // 
+        // this.deg = (-90)*forward;
+        this.forward =  (forwardAT % 4);
+        this.deg = (-90)*this.forward;
+        cube.style.transform = "rotate(" + this.deg + "deg)";
+        var x = startAt % config.row;
+        var y = (startAt - x)/config.row;
+        this.topPos += 42*y;
+        this.leftPos += 42*x;
+
+        cube.style.top = this.topPos + 'px';
+        cube.style.left = this.leftPos + 'px';
     }
+    
 }
 
 function buildGrid(){
@@ -52,104 +162,27 @@ function buildGrid(){
     document.getElementById("Grid").innerHTML = htmlStr;
 }
 
-function turnRight(){
-    var cube = document.getElementById("cube");
-    if(cubebox.forward == 0 ){
-        cube.style.animation = "topToRight 1s";
-    }
-    if(cubebox.forward == 1 ){
-        cube.style.animation = "rightToBottom 1s";
-    }
-    if(cubebox.forward == 2 ){
-        cube.style.animation = "bottomToLeft 1s";
-    }
-    if(cubebox.forward == 3 ){
-        cube.style.animation = "leftToTop 1s";
-    }
-    cube.style.animationFillMode="forwards";
-    cubebox.turnLeft();
-}
-
-function turnLeft(){
-    var cube = document.getElementById("cube");
-    if(cubebox.forward == 0 ){
-        cube.style.animation = "topToLeft 1s";
-    }
-    if(cubebox.forward == 1 ){
-        cube.style.animation = "rightToTop 1s";
-    }
-    if(cubebox.forward == 2 ){
-        cube.style.animation = "bottomToRight 1s";
-    }
-    if(cubebox.forward == 3 ){
-        cube.style.animation = "leftToBottom 1s";
-    }
-    cube.style.animationFillMode="forwards";
-    cubebox.turnRight();
-}
-
-function turnBack(){
-    var cube = document.getElementById("cube");
-    if(cubebox.forward == 0 ){
-        cube.style.animation = "topTurnBack 1s";
-    }
-    if(cubebox.forward == 1 ){
-        cube.style.animation = "rightTurnBack 1s";
-    }
-    if(cubebox.forward == 2 ){
-        cube.style.animation = "bottomTurnBack 1s";
-    }
-    if(cubebox.forward == 3 ){
-        cube.style.animation = "leftTurnBack 1s";
-    }
-    cube.style.animationFillMode="forwards";
-    cubebox.turnBack();
-}
-
-function move(){
-    var cube = document.getElementById("cube");
-    if(cubebox.forward == 0 ){
-        cube.style.animation = "topTurnBack 1s";
-    }
-    if(cubebox.forward == 1 ){
-        cube.style.animation = "rightTurnBack 1s";
-    }
-    if(cubebox.forward == 2 ){
-        cube.style.animation = "bottomTurnBack 1s";
-    }
-    if(cubebox.forward == 3 ){
-        cube.style.animation = "leftTurnBack 1s";
-    }
-}
-
 function init(){
-    //随机位置、随机方向
-    var startAt = Math.ceil(Math.random() * config.row * config.column) -1,
-        forwardAT = Math.random(),
-        forward = 0;
-    window.startAt = startAt;
-    if(forwardAT<0.25){
-        forward = 0;
-    }else if(forwardAT<0.5){
-        forward = 1;
-    }else if(forwardAT<0.75){
-        forward = 2;
-    }else{
-        forward = 3;
-    }
-    window.forward = forward;
-    
+    var cube = document.getElementById("cube")
+    cubebox.init(cube);
     //bind events
     document.getElementById("tl").addEventListener("click",function(){
-        turnLeft();
+        cubebox.TURNLEFT(cube);
     })
     document.getElementById("tr").addEventListener("click",function(){
-        turnRight();
+        cubebox.TURNRIGHT(cube);
     })
     document.getElementById("tb").addEventListener("click",function(){
-        turnBack();
+        cubebox.TURNBACK(cube);
     })
-    
+    document.getElementById("go").addEventListener("click",function(){
+        cubebox.GO(cube);
+    })
+    document.getElementById("execute").addEventListener("click",function(){
+       var order = document.getElementById("order").value;
+       cubebox[order](cube);
+       //cubebox.move(cube);
+    })
 }
 
 buildGrid();
